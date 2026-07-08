@@ -1,0 +1,29 @@
+class Solution {
+    int robitr(vector<int>& nums, int st, int end) {
+        int prev2 = 0;
+        int prev1 = 0;
+
+        for (int i = st; i < end; i++) {
+            int take = prev2 + nums[i];
+            int notTake = prev1;
+            int curr = max(take, notTake);
+
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+
+        if (n == 1) return nums[0];
+
+        int first = robitr(nums, 0, n - 1);
+        int second = robitr(nums, 1, n);
+
+        return max(first, second);
+    }
+};
