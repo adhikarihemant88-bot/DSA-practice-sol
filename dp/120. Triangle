@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& t) {
+        int m = t.size();
+
+        vector<vector<int>> dp = t;
+
+        for(int i = 1; i < m; i++) {
+            for(int j = 0; j <= i; j++) {
+
+                int val1 = (j > 0) ? dp[i-1][j-1] : INT_MAX;
+                int val2 = (j < i) ? dp[i-1][j] : INT_MAX;
+
+                dp[i][j] += min(val1, val2);
+            }
+        }
+
+        return *min_element(dp[m-1].begin(), dp[m-1].end());
+    }
+};
