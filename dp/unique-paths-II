@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& OG) {
+        int n = OG.size();int m = OG[0].size();
+        vector<vector<int>> dp(n, vector<int>(m, 0));
+         if (OG[0][0] == 1) return 0;
+            dp[0][0] = 1;
+        //cout<<n<<" here "<<m<<endl;
+        for (int y=0;y<n;y++){
+            for(int x=0;x<m;x++){
+                if(OG[y][x] == 1) {
+                    dp[y][x] = 0;
+                }else{
+                    if (x > 0) {
+                        dp[y][x] += dp[y][x - 1];
+                    }
+                    if (y > 0) {
+                        dp[y][x] += dp[y - 1][x];
+                    }
+                }
+            }
+        }
+        return dp[n-1][m-1];
+    }
+};
