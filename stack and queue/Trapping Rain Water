@@ -1,0 +1,52 @@
+//Brute
+class Solution {
+public:
+    int trap(vector<int>& h) {
+        int n = h.size();
+        vector<int> pre(n,0);
+        vector<int> suf(n,0);
+        int mx =0; 
+        for(int i=0;i<n;i++){
+            mx = max(mx,h[i]);
+            pre[i] = mx;
+        }
+        mx =0;
+        for(int i=n-1;i>=0;i--){
+            mx = max(mx,h[i]);
+            suf[i] = mx;
+        }
+        int ans =0;
+
+        for(int i=0;i<n;i++) {
+            int mn = min(pre[i],suf[i]);
+            ans +=(mn - h[i]);
+        }
+        return ans;
+
+    }
+};
+//optimal
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int left = 0;
+        int right = height.size() - 1;
+        int leftMax = height[left];
+        int rightMax = height[right];
+        int water = 0;
+
+        while (left < right) {
+            if (leftMax < rightMax) {
+                left++;
+                leftMax = max(leftMax, height[left]);
+                water += leftMax - height[left];
+            } else {
+                right--;
+                rightMax = max(rightMax, height[right]);
+                water += rightMax - height[right];
+            }
+        }
+
+        return water;        
+    }
+};
