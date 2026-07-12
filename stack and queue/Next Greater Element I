@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int indexes(vector<int> v,int val){
+        for(int i=0;i<v.size();i++) {
+            if(v[i] == val) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums2.size();
+        vector<int> ni(n,-1) ;
+        stack<int> st;
+
+        for(int i =n-1;i>=0;--i){
+            int val = nums2[i];
+            if(st.size()){
+                while(!st.empty() && val >= st.top()) {
+                    st.pop();
+                }
+                if(st.size()){
+                    ni[i] = st.top();
+                }
+            }
+            st.push(nums2[i]);
+        }
+
+        vector<int> ans;
+        for(int i=0;i<nums1.size();i++) {
+            int val = indexes(nums2,nums1[i]);
+            ans.push_back(ni[val]);
+        }
+
+        return ans;
+
+
+    }
+};
