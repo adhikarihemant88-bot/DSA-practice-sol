@@ -1,0 +1,52 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char,int> mp;
+
+        for(auto it:s){
+            mp[it]++;
+        }
+
+        priority_queue<pair<int, char>> pq;
+
+        for (auto [ch, count] : mp){
+            pq.push({count, ch});
+        }
+        string ans;
+        while(!pq.empty()) {
+            pair<int, char> val= pq.top();
+            int count = val.first;
+            char ch = val.second;
+            while(count--) {
+                ans.push_back(ch);
+            }
+            pq.pop();
+        }
+
+        return ans;
+
+    }
+};
+
+//bucket sort (optimal)
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> freq;
+
+        for (char c : s)
+            freq[c]++;
+
+        vector<string> bucket(s.size() + 1);
+
+        for (auto &[ch, cnt] : freq)
+            bucket[cnt].append(cnt, ch);
+
+        string ans;
+
+        for (int i = s.size(); i >= 1; i--)
+            ans += bucket[i];
+
+        return ans;
+    }
+};
