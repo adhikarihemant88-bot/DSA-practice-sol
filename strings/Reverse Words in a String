@@ -1,0 +1,38 @@
+//using stringstream
+class Solution {
+public:
+    string reverseWords(string s) {
+        stringstream ss(s);
+        string word;
+        string ans ="";
+        while(ss>>word) {
+            if(ans.size()) {
+            ans = word + " " + ans;
+            } else {
+                ans  = word;
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        string ans; 
+        string word;
+        for ( auto val : s){
+            if(val != ' ') {
+                word+=val;
+            } else if (word.size()){
+                ans =(ans.size()) ? word + " " + ans : word;
+                word ="";
+            }
+        }
+        if (word.size()){
+                ans =(ans.size()) ? word + " " + ans : word;
+                word ="";
+            }
+        return ans;
+    }
+};
