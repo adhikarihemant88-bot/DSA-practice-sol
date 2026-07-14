@@ -1,0 +1,29 @@
+class Solution
+{
+public:
+    int celebrity(vector<vector<int>> &M){
+        int celeb = -1;
+        int m = M.size();
+        int n = M[0].size();
+        for(int i =0 ;i<m;i++){
+            vector<int> data = M[i];
+            if(*max_element(data.begin(),data.end()) == 0){
+                if(celeb == -1){
+                    celeb = i;
+                }else{return -1;}
+            }
+        }
+        if(celeb == -1){
+            return -1;
+        }
+        for(int i=0;i<m;i++){
+            if(i != celeb){
+                if(M[i][celeb] == 0) {
+                    return -1;
+                }
+            }
+        }
+        return celeb;
+
+    }
+};
