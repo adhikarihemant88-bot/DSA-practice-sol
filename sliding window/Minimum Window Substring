@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        map<char,int> mp;
+        for(auto val: t ) {
+            mp[val]++;
+        }
+        int l=0;int r =0;int count =0;int ans = INT_MAX;int index =-1;
+        while(r<s.size()) {
+            if(mp.find(s[r]) != mp.end()) {
+                if(mp[s[r]] >0 ){
+                    count++;
+                }
+                mp[s[r]]--;
+            }
+            while(count == t.size()){
+                
+                if(mp.find(s[l]) != mp.end()) {
+                    mp[s[l]]++;
+                    if(mp[s[l]] >0 ){
+                        count--;
+                    }
+                }
+                if(ans > (r-l+1)){
+                    ans = (r-l+1);
+                    index = l;
+                }
+                l++;
+            }
+            r++;
+        }
+        if(ans == INT_MAX){return "";}
+        return s.substr(index,ans);
+    }
+};
