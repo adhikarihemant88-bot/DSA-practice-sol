@@ -1,0 +1,55 @@
+class Solution {
+public:
+    long long dfs(
+        int curr,
+        map<int, vector<int>>& adj,
+        map<int, long long>& dp
+    ) {
+        if (dp.find(curr) != dp.end()) {
+            return dp[curr];
+        }
+        long long bestNext = 0;
+        for (int neigh : adj[curr]) {
+            bestNext = max(bestNext, dfs(neigh, adj, dp));
+        }
+        return dp[curr] = curr + bestNext;
+    }
+    int maxSum(vector<int>& nums1, vector<int>& nums2) {
+        const long long MOD = 1e9 + 7;
+        map<int, vector<int>> adj;
+        for (int i = 1; i < nums1.size(); i++) {
+            adj[nums1[i - 1]].push_back(nums1[i]);
+        }
+        for (int i = 1; i < nums2.size(); i++) {
+            adj[nums2[i - 1]].push_back(nums2[i]);
+        }
+        map<int, long long> dp;
+        long long val1 = nums1.empty()
+            ? 0
+            : dfs(nums1[0], adj, dp);
+        long long val2 = nums2.empty() ? 0 : dfs(nums2[0], adj, dp);
+        return max(val1, val2) % MOD;
+    }
+};
+
+class Solution {
+public:
+    long long maxSum(vector<int>& a, vector<int>& b) {
+        const long long MOD = 1e9 + 7;
+        long long i = 0, j = 0, sa = 0, sb = 0, res = 0;
+        int n = a.size(), m = b.size();
+        while (i < n && j < m) {
+            if (a[i] < b[j]) sa += a[i++];
+            else if (a[i] > b[j]) sb += b[j++];
+            else { 
+                res += max(sa, sb) + a[i];
+                sa = sb = 0; ++i; ++j;
+            }
+        }
+        while (i < n) sa += a[i++];
+        while (j < m) sb += b[j++];
+        res += max(sa, sb);
+        return res % MOD;
+    }
+
+};
