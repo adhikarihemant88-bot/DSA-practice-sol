@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> createAdj(vector<vector<int>>& pr, int n) {
+        vector<vector<int>> adj(n);
+        for(int i = 0; i < pr.size(); i++) {
+            adj[pr[i][1]].push_back(pr[i][0]);
+        }
+        return adj;
+    }
+
+    vector<int> findOrder(int n, vector<vector<int>>& pr) {
+        vector<int> indeg(n, 0);
+        vector<vector<int>> adj = createAdj(pr, n);
+        queue<int> q;
+        for(int i = 0; i < pr.size(); i++) {
+            indeg[pr[i][0]]++;
+        }
+        for(int i = 0; i < n; i++) {
+            if(indeg[i] == 0) {
+                q.push(i);
+            }
+        }
+        vector<int> ans;
+        int c =0;
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            c++;
+            vector<int> l = adj[node];
+            for(int i = 0; i < l.size(); i++) {
+                indeg[l[i]]--;
+                if(indeg[l[i]] == 0) {
+                    q.push(l[i]);
+                }
+            }
+        }
+        if(c == n){return ans;}
+        return {};
+    }
+};
