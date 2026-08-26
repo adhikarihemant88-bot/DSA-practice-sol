@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> vis;
+    void dfs(vector<vector<int>>& rooms,int ind){
+        if(vis[ind]){
+            return;
+        }
+        vis[ind] =1;
+        for(int i =0;i<rooms[ind].size();i++){
+            dfs(rooms,rooms[ind][i]);
+        }
+    }
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vis.resize(n, 0);
+        dfs(rooms,0);
+        int ans =0;
+        for(int i=0;i<vis.size();i++){
+            if(vis[i] ==0){
+                ans++;
+            }
+        }
+        return ans==0;
+    }
+};
