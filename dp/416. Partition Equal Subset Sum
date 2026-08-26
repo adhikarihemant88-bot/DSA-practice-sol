@@ -1,1 +1,26 @@
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum  = accumulate(nums.begin(),nums.end(),0);
+        if(sum%2 != 0) {
+            return false;
+        }
+        int t = sum/2;
+        int m = nums.size();
+        vector<vector<int>> dp(m+1,vector<int>(t+1,0));
+        for(int i=0;i<m+1;i++) {
+            dp[i][0] = 1;
+        }
 
+        for(int i=1;i<m+1;i++) {
+            for(int j=1;j<t+1;j++) {
+                if(nums[i-1]<=j){
+                    dp[i][j] = max(dp[i-1][j],dp[i-1][j-nums[i-1]]);
+                }else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[m][t];
+    }
+};
