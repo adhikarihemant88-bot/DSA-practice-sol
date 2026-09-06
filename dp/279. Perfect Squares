@@ -1,0 +1,64 @@
+//converted to coin change for simplicity
+class Solution {
+public:
+    vector<int> create(int n) {
+        vector<int> ans;
+
+        for (int i = 1; i * i <= n; i++) {
+            ans.push_back(i * i);
+        }
+
+        return ans;
+    }
+
+    int numSquares(int n) {
+        vector<int> coins = create(n);
+        int m = coins.size();
+
+        vector<vector<int>> dp(
+            n + 1,
+            vector<int>(m + 1, INT_MAX - 1)
+        );
+        for (int j = 0; j <= m; j++) {
+            dp[0][j] = 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                dp[i][j] = dp[i][j - 1];
+                if (coins[j - 1] <= i) {
+                    dp[i][j] = min(
+                        dp[i][j],
+                        1 + dp[i - coins[j - 1]][j]
+                    );
+                }
+            }
+        }
+
+        return dp[n][m];
+    }
+};
+
+//optimized
+class Solution {
+public:
+    bool issquare(int n){
+        int r=sqrt(n);
+        return r*r==n;
+    }
+    int numSquares(int n) {
+        if(issquare(n)) return 1;
+        for(int i=1;i*i<n;i++){
+            if(issquare(n-i*i)) return 2;
+        }
+        vector<int> dp(n+1,INT_MAX);
+        dp[0]=0;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j*j<=i;j++){
+                int sq=j*j;
+                dp[i]=min(dp[i],dp[i-sq]+1);
+            }
+        }
+        return dp[n];
+    }
+};
